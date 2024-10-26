@@ -1,4 +1,4 @@
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     // 1.鼠标经过轮播图模块，左右按钮显示，离开隐藏左右按钮。
     var focus = document.querySelector('.focus');
     var arr_l = focus.querySelector('.arr-l');
@@ -6,16 +6,16 @@ window.addEventListener('load', function() {
     var ul = focus.querySelector('ul');
     var ol = focus.querySelector('.circle');
     var focusWidth = focus.offsetWidth;
-    focus.addEventListener('mouseenter', function() {
+    focus.addEventListener('mouseenter', function () {
         arr_l.style.display = 'block';
         arr_r.style.display = 'block';
         clearInterval(timer);
         timer = null;
     });
-    focus.addEventListener('mouseleave', function() {
+    focus.addEventListener('mouseleave', function () {
         arr_l.style.display = 'none';
         arr_r.style.display = 'none';
-        timer = setInterval(function() {
+        timer = setInterval(function () {
             arr_r.click();
         }, 3000);
     });
@@ -24,7 +24,7 @@ window.addEventListener('load', function() {
         var li = document.createElement('li');
         ol.appendChild(li);
         li.setAttribute('data-index', i);
-        ol.children[i].addEventListener('click', function() {
+        ol.children[i].addEventListener('click', function () {
             for (var i = 0; i < ol.children.length; i++) {
                 ol.children[i].className = '';
             }
@@ -43,7 +43,7 @@ window.addEventListener('load', function() {
     var num = 0;
     var circle = 0;
     var flag = true;
-    arr_r.addEventListener('click', function() {
+    arr_r.addEventListener('click', function () {
         if (flag) {
             flag = false;
             if (num == ul.children.length - 1) {
@@ -51,21 +51,20 @@ window.addEventListener('load', function() {
                 num = 0;
             }
             num++;
-            animate(ul, -num * focusWidth, function() {
+            animate(ul, -num * focusWidth, function () {
                 flag = true;
             });
+
+
             circle++;
             if (circle == ol.children.length) {
                 circle = 0;
             }
-            for (var i = 0; i < ol.children.length; i++) {
-                ol.children[i].className = '';
-            }
-            ol.children[circle].className = 'current';
+            circleChange();
 
         }
     });
-    arr_l.addEventListener('click', function() {
+    arr_l.addEventListener('click', function () {
         if (flag) {
             flag = false;
             if (num == 0) {
@@ -73,22 +72,25 @@ window.addEventListener('load', function() {
                 ul.style.left = -num * focusWidth + 'px';
             }
             num--;
-            animate(ul, -num * focusWidth, function() {
+            animate(ul, -num * focusWidth, function () {
                 flag = true;
             });
             circle--;
             if (circle < 0) {
                 circle = ol.children.length - 1;
             }
-            for (var i = 0; i < ol.children.length; i++) {
-                ol.children[i].className = '';
-            }
-            ol.children[circle].className = 'current';
+            circleChange();
 
         }
     });
+    function circleChange() {
+        for (var i = 0; i < ol.children.length; i++) {
+            ol.children[i].className = '';
+        }
+        ol.children[circle].className = 'current';
+    }
     // ​5.鼠标不经过轮播图，轮播图也会自动播放图片。
-    var timer = setInterval(function() {
+    var timer = setInterval(function () {
         arr_r.click();
     }, 3000);
     // ​6.鼠标经过，轮播图模块， 自动播放停止。
